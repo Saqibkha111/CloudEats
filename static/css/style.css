@@ -1,0 +1,5 @@
+body { background:#f7f7f9; color:#222; }
+.navbar-brand { font-weight: 800; letter-spacing: .4px; }
+.card-dish { border-radius: 12px; overflow: hidden; transition: transform .18s ease, box-shadow .18s ease; }
+.card-dish:hover { transform: translateY(-6px); box-shadow: 0 10px 30px rgba(20,20,20,0.08); }
+.card-footer { border-top: none; }

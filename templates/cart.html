@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #fff6f5, #fff9f0);
+  }
+
+  /* 🌟 Cart Container */
+  .cart-container {
+    max-width: 950px;
+    margin: 60px auto;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    padding: 40px 50px;
+    animation: fadeIn 0.7s ease;
+  }
+
+  .cart-container h2 {
+    text-align: center;
+    color: #ff3f34;
+    font-weight: 700;
+    margin-bottom: 35px;
+    letter-spacing: 0.5px;
+  }
+
+  /* 🌟 Table Styling */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  thead th {
+    background: linear-gradient(90deg, #ff3f34, #ff6b6b);
+    color: #fff;
+    font-weight: 600;
+    font-size: 15px;
+    text-transform: uppercase;
+    padding: 14px 10px;
+  }
+
+  tbody td {
+    padding: 14px 12px;
+    text-align: center;
+    border-bottom: 1px solid #f2f2f2;
+    font-size: 15px;
+    color: #444;
+  }
+
+  tbody tr:hover {
+    background: #fff7f6;
+    transition: 0.3s ease-in-out;
+  }
+
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+
+  /* 🌟 Buttons */
+  .btn {
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn-outline-danger {
+    border: 1px solid #ff3f34;
+    color: #ff3f34;
+    background: transparent;
+  }
+
+  .btn-outline-danger:hover {
+    background: #ff3f34;
+    color: #fff;
+    box-shadow: 0 3px 8px rgba(255, 63, 52, 0.3);
+  }
+
+  .btn-success {
+    display: block;
+    width: 240px;
+    margin: 40px auto 0;
+    background: linear-gradient(90deg, #2ecc71, #27ae60);
+    color: #fff;
+    border: none;
+    font-weight: 600;
+    border-radius: 30px;
+    padding: 12px 20px;
+    text-align: center;
+    transition: 0.3s ease;
+    box-shadow: 0 4px 12px rgba(46, 204, 113, 0.3);
+  }
+
+  .btn-success:hover {
+    background: linear-gradient(90deg, #27ae60, #1e8f4e);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(46, 204, 113, 0.4);
+  }
+
+  /* 🌟 Empty Cart */
+  .empty-cart {
+    text-align: center;
+    margin: 80px 0;
+    font-size: 18px;
+    color: #666;
+  }
+
+  .empty-cart a {
+    color: #ff3f34;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .empty-cart a:hover {
+    text-decoration: underline;
+  }
+
+  /* 🌟 Animation */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* 🌟 Responsive */
+  @media (max-width: 768px) {
+    .cart-container {
+      padding: 25px 20px;
+    }
+
+    table, thead, tbody, th, td, tr {
+      display: block;
+    }
+
+    thead tr {
+      display: none;
+    }
+
+    tbody tr {
+      margin-bottom: 15px;
+      border: 1px solid #eee;
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    tbody td {
+      text-align: right;
+      position: relative;
+      padding-left: 50%;
+    }
+
+    tbody td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 15px;
+      width: 45%;
+      text-align: left;
+      font-weight: 600;
+      color: #d63031;
+    }
+
+    .btn-success {
+      width: 100%;
+    }
+  }
+</style>
+
+<div class="cart-container">
+  <h2>Your Cart 🛒</h2>
+
+  {% if items %}
+  <table>
+    <thead>
+      <tr>
+        <th>Dish</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for it in items %}
+      <tr>
+        <td data-label="Dish">{{ it.dish.name }}</td>
+        <td data-label="Quantity">{{ it.qty }}</td>
+        <td data-label="Subtotal">₹{{ it.subtotal }}</td>
+        <td data-label="Action">
+          <a class="btn btn-outline-danger" href="{% url 'kitchen:remove_from_cart' it.dish.id %}">Remove</a>
+        </td>
+      </tr>
+      {% endfor %}
+      <tr style="background:#fff3f3;">
+        <td colspan="2" style="font-weight:600;">Total</td>
+        <td colspan="2" style="font-weight:700; color:#d63031;">₹{{ total }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <a class="btn btn-success" href="{% url 'kitchen:checkout' %}">Proceed to Payment</a>
+
+  {% else %}
+  <div class="empty-cart">
+    🛒 Your cart is empty.<br>
+    <a href="{% url 'index' %}">Browse dishes</a>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

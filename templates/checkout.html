@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  body {
+    background: linear-gradient(135deg, #fff6f5, #fffefb);
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .checkout-wrapper {
+    max-width: 550px;
+    margin: 80px auto;
+    background: #fff;
+    border-radius: 22px;
+    box-shadow: 0 8px 30px rgba(255, 63, 52, 0.15);
+    padding: 50px 55px;
+    animation: fadeIn 0.8s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .checkout-wrapper::before {
+    content: "";
+    position: absolute;
+    top: -60px;
+    left: -60px;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(255,63,52,0.15), transparent);
+    border-radius: 50%;
+  }
+
+  .checkout-wrapper h2 {
+    color: #ff3f34;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 2rem;
+  }
+
+  label {
+    font-weight: 500;
+    color: #444;
+  }
+
+  textarea, input {
+    border-radius: 10px !important;
+    border: 1px solid #ffdada !important;
+    box-shadow: 0 2px 8px rgba(255, 63, 52, 0.05);
+    padding: 10px 14px !important;
+    transition: all 0.3s ease;
+  }
+
+  textarea:focus, input:focus {
+    border-color: #ff3f34 !important;
+    box-shadow: 0 0 8px rgba(255, 63, 52, 0.2);
+  }
+
+  .btn-checkout {
+    display: block;
+    width: 100%;
+    background: linear-gradient(90deg, #ff3f34, #ff6b6b);
+    border: none;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: 35px;
+    padding: 14px 0;
+    margin-top: 20px;
+    box-shadow: 0 6px 20px rgba(255, 63, 52, 0.3);
+    transition: 0.3s ease;
+  }
+
+  .btn-checkout:hover {
+    background: linear-gradient(90deg, #e03128, #ff5050);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 63, 52, 0.4);
+  }
+
+  .note {
+    text-align: center;
+    color: #777;
+    font-size: 14px;
+    margin-top: 15px;
+    line-height: 1.5;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    .checkout-wrapper {
+      margin: 50px 20px;
+      padding: 35px 25px;
+    }
+
+    .checkout-wrapper h2 {
+      font-size: 1.6rem;
+    }
+
+    .btn-checkout {
+      font-size: 16px;
+      padding: 12px 0;
+    }
+  }
+</style>
+
+<div class="checkout-wrapper">
+  <h2>Checkout Details 🛒</h2>
+
+  <form method="POST" id="checkoutForm">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label class="form-label">Full Address</label>
+     <textarea name="address"
+          class="form-control"
+          rows="2"
+          placeholder="Enter your delivery address"
+          minlength="10"
+          maxlength="200"
+          required></textarea>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label class="form-label">City</label>
+       <input type="text" name="city"
+       class="form-control"
+       placeholder="Your city"
+       pattern="[A-Za-z ]{2,50}"
+       title="City name should contain only letters"
+       required>
+      </div>
+      <div class="col-md-6 mb-3">
+        <label class="form-label">Pincode</label>
+        <input type="text" name="pincode"
+       class="form-control"
+       placeholder="e.g. 110001"
+       pattern="[0-9]{6}"
+       maxlength="6"
+       required>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Phone Number</label>
+     <input type="text" name="phone"
+       class="form-control"
+       placeholder="e.g. 9876543210"
+       pattern="[0-9]{10}"
+       maxlength="10"
+       required>
+    </div>
+
+    <button type="submit" class="btn-checkout" id="submitBtn">
+  Proceed to Payment 💳
+</button>
+     
+
+    <p class="note">
+      🔐 Please ensure your details are correct before proceeding.<br>
+      You’ll be redirected securely to the payment gateway.
+    </p>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #fff6f5, #fff9f0);
+  }
+
+  /* 🔹 Header Section */
+  .terms-hero {
+    background: linear-gradient(135deg, #ff3f34 0%, #ff6b6b 100%);
+    color: #fff;
+    border-radius: 20px;
+    padding: 80px 40px;
+    text-align: center;
+    margin-bottom: 60px;
+    box-shadow: 0 10px 30px rgba(255, 63, 52, 0.3);
+    animation: fadeInDown 1s ease;
+  }
+
+  .terms-hero h2 {
+    font-weight: 700;
+    font-size: 2.4rem;
+    margin-bottom: 12px;
+  }
+
+  .terms-hero p {
+    font-size: 18px;
+    opacity: 0.95;
+  }
+
+  /* 🔹 Main Content Card */
+  .terms-content {
+    max-width: 950px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    padding: 50px 60px;
+    color: #333;
+    line-height: 1.8;
+    animation: fadeInUp 1.2s ease;
+  }
+
+  .terms-content h4 {
+    color: #d62828;
+    font-weight: 700;
+    margin-top: 25px;
+    font-size: 1.4rem;
+  }
+
+  .terms-content p,
+  .terms-content ul {
+    font-size: 16.5px;
+    color: #444;
+  }
+
+  ul li {
+    margin-bottom: 8px;
+  }
+
+  .contact-section {
+    background: #fff5f5;
+    border-left: 5px solid #ff3f34;
+    padding: 18px 22px;
+    border-radius: 12px;
+    margin-top: 25px;
+    box-shadow: 0 2px 10px rgba(255, 63, 52, 0.1);
+  }
+
+  .last-updated {
+    text-align: right;
+    color: #999;
+    margin-top: 30px;
+    font-style: italic;
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-25px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    .terms-hero { padding: 60px 25px; }
+    .terms-content { padding: 30px 25px; }
+    .terms-hero h2 { font-size: 1.9rem; }
+  }
+</style>
+
+<div class="container py-5">
+  <div class="terms-hero">
+    <h2>Terms & Conditions 📜</h2>
+    <p>Welcome to <strong>CloudEats</strong> — delicious food, delivered with trust.</p>
+  </div>
+
+  <div class="terms-content">
+    <p>
+      These Terms and Conditions explain the rules and regulations for using our services. 
+      By accessing or ordering from <strong>CloudEats</strong>, you agree to follow these terms. 
+      Please read them carefully before using our platform.
+    </p>
+
+    <h4>1️⃣ Acceptance of Terms</h4>
+    <p>
+      By using our website or app, you agree to comply with these Terms and our Privacy Policy. 
+      If you disagree, please do not use our services.
+    </p>
+
+    <h4>2️⃣ Use of Services</h4>
+    <ul>
+      <li>You must be at least 18 years old or have parental permission to place an order.</li>
+      <li>You agree to provide accurate information during registration and checkout.</li>
+      <li>You may not use our website for any illegal or unauthorized purpose.</li>
+    </ul>
+
+    <h4>3️⃣ Account Responsibility</h4>
+    <p>
+      You are responsible for maintaining your account and keeping your password safe. 
+      Any activity under your account is your responsibility.
+    </p>
+
+    <h4>4️⃣ Ordering & Payment</h4>
+    <ul>
+      <li>All orders are subject to availability and confirmation.</li>
+      <li>Prices and menu items may change without prior notice.</li>
+      <li>Payments are securely processed via <strong>Razorpay</strong>. We never store card details.</li>
+    </ul>
+
+    <h4>5️⃣ Cancellation & Refund Policy</h4>
+    <p>
+      Once food preparation begins, the order cannot be canceled. Refunds (if eligible) will follow our refund policy.
+    </p>
+
+    <h4>6️⃣ Intellectual Property</h4>
+    <p>
+      All designs, logos, and content belong to <strong>CloudEats</strong>. 
+      Copying or redistributing our content without permission is prohibited.
+    </p>
+
+    <h4>7️⃣ Limitation of Liability</h4>
+    <p>
+      We are not liable for delays, technical issues, or third-party failures beyond our control.
+    </p>
+
+    <h4>8️⃣ Changes to Terms</h4>
+    <p>
+      We may update these Terms at any time. The updated version will be available on this page.
+      Continuing to use our website means you accept the new terms.
+    </p>
+
+    <h4>9️⃣ Contact Us 📞</h4>
+    <div class="contact-section">
+      <p>If you have any questions about our Terms & Conditions, feel free to reach out:</p>
+      <ul>
+        <li><strong>Email:</strong> support@cloudeats.com</li>
+        <li><strong>Phone:</strong> +91 98765 43210</li>
+      </ul>
+    </div>
+
+    <p class="last-updated">Last Updated: October 2025</p>
+  </div>
+</div>
+
+{% endblock %}

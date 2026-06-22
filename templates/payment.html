@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  body {
+    background: linear-gradient(135deg, #fff8f8, #fffefc);
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .payment-wrapper {
+    max-width: 520px;
+    margin: 80px auto;
+    background: #fff;
+    border-radius: 22px;
+    box-shadow: 0 10px 35px rgba(255, 63, 52, 0.15);
+    padding: 45px 50px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 0.8s ease;
+  }
+
+  .payment-wrapper::before {
+    content: "";
+    position: absolute;
+    top: -60px;
+    left: -60px;
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(255,63,52,0.2), transparent);
+    border-radius: 50%;
+  }
+
+  .payment-wrapper h2 {
+    color: #ff3f34;
+    font-weight: 700;
+    margin-bottom: 25px;
+    font-size: 2rem;
+  }
+
+  .order-summary {
+    background: #fff7f7;
+    border: 1px solid #ffd4d4;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(255,63,52,0.05);
+  }
+
+  .order-summary p {
+    font-size: 15px;
+    color: #444;
+    margin: 8px 0;
+  }
+
+  .order-summary strong {
+    color: #000;
+  }
+
+  .btn-pay-now {
+    background: linear-gradient(90deg, #ff3f34, #ff6b6b);
+    border: none;
+    color: #fff;
+    padding: 14px 40px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 35px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 18px rgba(255, 63, 52, 0.3);
+  }
+
+  .btn-pay-now:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(90deg, #e03128, #ff4e4e);
+    box-shadow: 0 8px 24px rgba(255, 63, 52, 0.4);
+  }
+
+  .note {
+    color: #777;
+    font-size: 14px;
+    margin-top: 18px;
+    line-height: 1.5;
+  }
+
+  /* Animation */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    .payment-wrapper {
+      margin: 50px 20px;
+      padding: 35px 25px;
+    }
+
+    .btn-pay-now {
+      width: 100%;
+      font-size: 17px;
+      padding: 12px 0;
+    }
+  }
+</style>
+
+<div class="payment-wrapper">
+  <h2>Complete Your Payment 💳</h2>
+
+  <div class="order-summary">
+    <p><strong>Total Amount:</strong> ₹{{ total_rupees }}</p>
+    <p><strong>Address:</strong> {{ address }}, {{ city }} ({{ pincode }})</p>
+    <p><strong>Phone:</strong> {{ phone }}</p>
+  </div>
+
+  <button id="payButton" class="btn-pay-now">
+    Proceed to Pay ₹{{ total_rupees }}
+  </button>
+
+  <p class="note">
+    🔒 You’ll be securely redirected to Razorpay for payment.<br>
+    Please don’t refresh or close this page during the process.
+  </p>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+  var options = {
+    "key": "{{ razorpay_key_id }}",
+    "amount": "{{ amount }}",
+    "currency": "INR",
+    "order_id": "{{ razorpay_order_id }}",
+    "name": "CloudEats",
+    "description": "Order Payment",
+    "handler": function (response) {
+      fetch("{% url 'kitchen:payment_success' %}", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "X-CSRFToken": "{{ csrf_token }}",
+        },
+        body:
+          "razorpay_payment_id=" + response.razorpay_payment_id +
+          "&razorpay_order_id=" + response.razorpay_order_id +
+          "&razorpay_signature=" + response.razorpay_signature
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === "Payment verified") {
+          window.location.href = "{% url 'kitchen:payment_done' %}";
+        } else {
+          alert("❌ Payment verification failed.");
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("⚠️ Server error during verification.");
+      });
+    },
+    "prefill": {
+      "name": "{{ request.user.username }}",
+      "email": "{{ request.user.email }}"
+    },
+    "theme": {"color": "#ff3f34"}
+  };
+
+  document.getElementById("payButton").onclick = function(e){
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+    e.preventDefault();
+  }
+</script>
+{% endblock %}

@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_filters %}
+{% block content %}
+
+<style>
+  body {
+    background: linear-gradient(135deg, #fff8f7, #fffaf5);
+    font-family: 'Poppins', sans-serif;
+  }
+
+  h3 {
+    color: #ff3f34;
+    font-weight: 700;
+    font-size: 2rem;
+  }
+
+  .menu-card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+    background: #fff;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    animation: fadeIn 0.6s ease;
+  }
+
+  .menu-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 28px rgba(255, 63, 52, 0.15);
+  }
+
+  .menu-card img {
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+
+  .btn-add {
+    background: linear-gradient(90deg, #ff3f34, #ff6b6b);
+    border: none;
+    color: #fff;
+    padding: 8px 10px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: 0.3s ease;
+    box-shadow: 0 3px 10px rgba(255, 63, 52, 0.25);
+  }
+
+  .btn-add:hover {
+    background: linear-gradient(90deg, #e03128, #ff5050);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 14px rgba(255, 63, 52, 0.35);
+  }
+
+  .quantity-controls {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .quantity-controls button {
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  }
+
+  .btn-qty-minus {background: linear-gradient(90deg, #ff3f34, #ff6b6b); color: #000000;  }
+  .btn-qty-plus {background: linear-gradient(90deg, #ff3f34, #ff6b6b);; color: #000000;  }
+
+  .qty-number {
+    min-width: 34px;
+    text-align: center;
+    font-weight: 900;
+  }
+
+  .badge {
+    font-size: 10px;
+    padding: 6px 10px;
+    border-radius: 8px;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h3>🍴 Our Menu</h3>
+  {% if user.is_staff %}
+  <a href="{% url 'admin:index' %}" class="btn btn-sm btn-outline-primary">
+    ➕ Add Dish (Admin)
+  </a>
+  {% endif %}
+</div>
+
+<div class="row g-4 justify-content-center">
+  {% for dish in dishes %}
+  <div class="col-lg-3 col-md-4 col-sm-6">
+    <div class="menu-card p-2">
+      {% if dish.image %}
+        <img src="{{ dish.image.url }}" alt="{{ dish.name }}">
+      {% endif %}
+
+      <div class="menu-card-body text-center">
+        <h5>{{ dish.name }}</h5>
+        <p>{{ dish.description|truncatewords:15 }}</p>
+
+        <!-- 💰 Price + Availability (SIDE BY SIDE) -->
+        <div class="d-flex justify-content-between align-items-center mb-2 px-2">
+          <p class="fw-bold mb-0">₹{{ dish.price }}</p>
+          {% if dish.is_available %}
+            <span class="badge bg-success">Available</span>
+          {% else %}
+            <span class="badge bg-danger">Unavailable</span>
+          {% endif %}
+        </div>
+
+        <!-- 🛒 Cart Buttons -->
+        <div id="cart-controls-{{ dish.id }}">
+          {% if dish.id in cart %}
+            <div class="quantity-controls">
+              <button class="btn-qty-minus" data-dish-id="{{ dish.id }}" data-action="remove">−</button>
+              <span class="qty-number" id="qty-{{ dish.id }}">{{ cart|get_item:dish.id }}</span>
+              <button class="btn-qty-plus" data-dish-id="{{ dish.id }}" data-action="add">+</button>
+            </div>
+          {% else %}
+            <button class="btn-add" data-dish-id="{{ dish.id }}" data-action="add">Add to Cart 🛒</button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <p class="text-muted text-center mt-4">No dishes available right now 😔</p>
+  {% endfor %}
+</div>
+
+<script>
+  // ✅ Get CSRF token
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+  const csrftoken = getCookie('csrftoken');
+
+  // ✅ AJAX Add / Remove Quantity
+  document.addEventListener('click', function(e) {
+    const btn = e.target.closest('[data-dish-id]');
+    if (!btn) return;
+
+    const dishId = btn.dataset.dishId;
+    const action = btn.dataset.action;
+
+    fetch(`{% url 'kitchen:update_cart' 0 'add' %}`.replace('/0/add', `/${dishId}/${action}`), {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': csrftoken,
+        'Accept': 'application/json',
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      const container = document.getElementById(`cart-controls-${dishId}`);
+      if (data.quantity && data.quantity > 0) {
+        container.innerHTML = `
+          <div class="quantity-controls">
+            <button class="btn-qty-minus" data-dish-id="${dishId}" data-action="remove">−</button>
+            <span class="qty-number" id="qty-${dishId}">${data.quantity}</span>
+            <button class="btn-qty-plus" data-dish-id="${dishId}" data-action="add">+</button>
+          </div>`;
+      } else {
+        container.innerHTML = `<button class="btn-add" data-dish-id="${dishId}" data-action="add">Add to Cart 🛒</button>`;
+      }
+    })
+    .catch(err => console.error('Error:', err));
+  });
+</script>
+
+{% endblock %}

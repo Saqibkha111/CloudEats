@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #fffaf7, #f9f9ff);
+  }
+
+  /* 🔹 Header Section */
+  .faq-hero {
+    background: linear-gradient(135deg, #ff3f34 0%, #ff6b6b 100%);
+    color: #fff;
+    border-radius: 20px;
+    padding: 80px 40px;
+    text-align: center;
+    margin-bottom: 60px;
+    box-shadow: 0 10px 30px rgba(255, 63, 52, 0.3);
+    animation: fadeInDown 1s ease;
+  }
+
+  .faq-hero h2 {
+    font-weight: 700;
+    font-size: 2.4rem;
+    margin-bottom: 12px;
+  }
+
+  .faq-hero p {
+    font-size: 18px;
+    opacity: 0.95;
+  }
+
+  /* 🔹 Accordion Container */
+  .faq-container {
+    max-width: 950px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    padding: 50px 60px;
+    animation: fadeInUp 1.2s ease;
+  }
+
+  .accordion-button {
+    background-color: #fff;
+    color: #333;
+    font-weight: 600;
+    font-size: 1.05rem;
+    box-shadow: none;
+    border: none;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .accordion-button:not(.collapsed) {
+    background: linear-gradient(135deg, #ff3f34, #ff6b6b);
+    color: #fff;
+    box-shadow: 0 3px 8px rgba(255, 63, 52, 0.3);
+  }
+
+  .accordion-item {
+    border: none;
+    margin-bottom: 18px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .accordion-body {
+    font-size: 16px;
+    color: #444;
+    background: #fffaf9;
+    border-top: 1px solid #f1f1f1;
+  }
+
+  .faq-footer {
+    text-align: right;
+    color: #888;
+    margin-top: 40px;
+    font-style: italic;
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-25px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    .faq-hero { padding: 60px 25px; }
+    .faq-container { padding: 30px 25px; }
+    .faq-hero h2 { font-size: 1.9rem; }
+  }
+</style>
+
+<div class="container py-5">
+  <div class="faq-hero">
+    <h2>Frequently Asked Questions 💬</h2>
+    <p>All your CloudEats queries — answered in one place!</p>
+  </div>
+
+  <div class="faq-container">
+    <div class="accordion" id="faqAccordion">
+
+      <!-- Q1 -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingOne">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+            1️⃣ What is CloudEats?
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            <strong>CloudEats</strong> is an online food delivery service that connects you to fresh, hygienic, and delicious meals prepared by our expert chefs — delivered hot to your doorstep!
+          </div>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingTwo">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+            2️⃣ How can I place an order?
+          </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Simply visit our <strong>Menu</strong> page, add your favorite dishes to the cart, and proceed to checkout. Pay securely using Razorpay and relax while we deliver your food fast 🍴
+          </div>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingThree">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+            3️⃣ What payment methods do you accept?
+          </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            We accept all major credit/debit cards, UPI, and net banking through <strong>Razorpay</strong>. Every transaction is fully secure 🔐
+          </div>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingFour">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour">
+            4️⃣ Can I cancel or modify my order?
+          </button>
+        </h2>
+        <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Orders can be canceled before preparation begins. Once cooking starts, cancellation is not possible. Contact our support team immediately if you need help.
+          </div>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingFive">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive">
+            5️⃣ Do you offer home delivery?
+          </button>
+        </h2>
+        <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            Absolutely! CloudEats provides fast and reliable home delivery within our service areas. Delivery time depends on your location and kitchen load 🚚
+          </div>
+        </div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingSix">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix">
+            6️⃣ How can I contact customer support?
+          </button>
+        </h2>
+        <div id="collapseSix" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+          <div class="accordion-body">
+            You can reach our support team through the <strong>Contact Us</strong> page or email us at <a href="mailto:support@cloudeats.com">support@cloudeats.com</a>.  
+            We’re happy to help 24/7 💬
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="faq-footer">Last Updated: October 2025</p>
+  </div>
+</div>
+
+{% endblock %}

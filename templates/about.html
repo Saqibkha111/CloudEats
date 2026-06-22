@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #fff6f5, #fff9f0);
+  }
+
+  /* 🔹 Hero Section */
+  .about-hero {
+    background: linear-gradient(135deg, #ff3f34 0%, #ff6b6b 100%);
+    color: #fff;
+    border-radius: 20px;
+    padding: 80px 40px;
+    text-align: center;
+    margin-bottom: 60px;
+    box-shadow: 0 10px 30px rgba(255, 63, 52, 0.3);
+    animation: fadeInDown 1s ease;
+  }
+
+  .about-hero h2 {
+    font-weight: 700;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  .about-hero p {
+    font-size: 18px;
+    opacity: 0.95;
+    margin-bottom: 0;
+  }
+
+  /* 🔹 Main Content Card */
+  .about-content {
+    max-width: 950px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    padding: 50px 60px;
+    color: #333;
+    line-height: 1.8;
+    animation: fadeInUp 1.2s ease;
+  }
+
+  .about-content h3 {
+    color: #d62828;
+    font-weight: 700;
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+  }
+
+  .about-content p {
+    font-size: 16.5px;
+    margin-bottom: 15px;
+  }
+
+  /* 🔹 Highlight Quote */
+  .about-highlight {
+    background: #fff5f5;
+    border-left: 5px solid #ff3f34;
+    padding: 18px 20px;
+    border-radius: 10px;
+    font-style: italic;
+    color: #555;
+    margin-top: 20px;
+    box-shadow: 0 2px 10px rgba(255, 63, 52, 0.1);
+  }
+
+  /* 🔹 Values Section */
+  .values-section {
+    margin-top: 45px;
+  }
+
+  .values-section h4 {
+    color: #d62828;
+    font-weight: 700;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+  }
+
+  .value-item {
+    background: #fff8f8;
+    border-radius: 14px;
+    padding: 18px 22px;
+    margin-bottom: 15px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+    font-size: 15.5px;
+    transition: 0.3s;
+  }
+
+  .value-item strong {
+    color: #d62828;
+  }
+
+  .value-item:hover {
+    background: #fff0f0;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(255, 63, 52, 0.15);
+  }
+
+  /* 🔹 Section animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(25px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-25px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* 🔹 Responsive */
+  @media (max-width: 768px) {
+    .about-hero {
+      padding: 60px 20px;
+    }
+
+    .about-content {
+      padding: 30px 25px;
+    }
+
+    .about-hero h2 {
+      font-size: 1.9rem;
+    }
+
+    .about-content h3 {
+      font-size: 1.4rem;
+    }
+  }
+</style>
+
+<div class="container py-5">
+  <div class="about-hero">
+    <h2>About CloudEats 🍴</h2>
+    <p>Delivering happiness, one bite at a time — right to your doorstep.</p>
+  </div>
+
+  <div class="about-content">
+    <h3>Who We Are</h3>
+    <p>
+      Welcome to <strong>CloudEats</strong> — your favorite online kitchen serving 
+      delicious, freshly cooked meals made with love and care. We combine 
+      culinary passion with modern technology to bring you restaurant-quality 
+      food at home, fast and hygienically.
+    </p>
+
+    <div class="about-highlight">
+      “At CloudEats, we don’t just serve food — we serve comfort, freshness, and joy.”
+    </div>
+
+    <div class="values-section">
+      <h4>Our Core Values ❤️</h4>
+
+      <div class="value-item">
+        <strong>🍳 Quality First:</strong> Every dish is made using the finest, freshest ingredients.
+      </div>
+
+      <div class="value-item">
+        <strong>🚀 Fast Delivery:</strong> Hot and tasty meals delivered faster than ever.
+      </div>
+
+      <div class="value-item">
+        <strong>🧼 Hygiene Guaranteed:</strong> Clean kitchens, safe handling, and sealed packaging.
+      </div>
+
+      <div class="value-item">
+        <strong>💬 Customer Happiness:</strong> Your satisfaction is our secret recipe for success.
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

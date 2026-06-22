@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+  body {
+    background: linear-gradient(135deg, #fff6f5, #fffaf5);
+    font-family: 'Poppins', sans-serif;
+  }
+
+  /* 🌟 Main Container */
+  .payment-container {
+    max-width: 500px;
+    margin: 100px auto;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.08);
+    padding: 50px 40px;
+    text-align: center;
+    animation: fadeIn 0.8s ease;
+  }
+
+  /* 🌟 Success Icon */
+  .success-icon {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(90deg, #2ecc71, #27ae60);
+    color: #fff;
+    font-size: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    position: relative;
+    animation: pop 0.5s ease-in-out;
+  }
+
+  .success-icon::after {
+    content: "";
+    position: absolute;
+    inset: -8px;
+    border: 3px solid rgba(46, 204, 113, 0.4);
+    border-radius: 50%;
+    animation: ringPulse 1.6s ease-out infinite;
+  }
+
+  /* 🌟 Headings & Text */
+  h1 {
+    color: #2ecc71;
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-size: 1.9rem;
+  }
+
+  p {
+    color: #555;
+    font-size: 16px;
+    margin-bottom: 25px;
+    line-height: 1.5;
+  }
+
+  /* 🌟 Button */
+  .btn-home {
+    display: inline-block;
+    background: linear-gradient(90deg, #ff3f34, #ff6b6b);
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    font-size: 16px;
+    padding: 12px 30px;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(255, 63, 52, 0.3);
+  }
+
+  .btn-home:hover {
+    background: linear-gradient(90deg, #e03128, #ff5050);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(255, 63, 52, 0.35);
+  }
+
+  /* 🌟 Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0.6); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  @keyframes ringPulse {
+    0% { transform: scale(0.9); opacity: 1; }
+    100% { transform: scale(1.4); opacity: 0; }
+  }
+
+  /* 🌟 Responsive */
+  @media (max-width: 600px) {
+    .payment-container {
+      margin: 70px 20px;
+      padding: 35px 25px;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      font-size: 40px;
+    }
+
+    h1 {
+      font-size: 1.6rem;
+    }
+  }
+</style>
+
+<div class="payment-container">
+  <div class="success-icon">✓</div>
+  <h1>Payment Successful!</h1>
+  <p>Thank you for your order 🙌<br>Your delicious meal is being prepared and will be delivered soon!</p>
+  <a href="{% url 'kitchen:index' %}" class="btn-home">🏠 Back to Home</a>
+</div>
+{% endblock %}
